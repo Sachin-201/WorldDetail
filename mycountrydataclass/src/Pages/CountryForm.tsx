@@ -1,53 +1,169 @@
-import { Component, ChangeEvent } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import { makeStyles } from "@mui/styles";
-import { Box } from "@mui/material";
-import toast, { Toaster } from "react-hot-toast";
-import withRouter from "../withRouter";
-import "../global.css";
+// import React, { Component, ChangeEvent } from 'react';
+// import toast, { Toaster } from 'react-hot-toast';
+// import withRouter from '../withRouter';
+
+// const formStyle = {
+//   display: 'flex',
+//   flexDirection: 'column',
+//   alignItems: 'center',
+//   sizeAdjust: 'auto',
+//   marginTop: '20px',
+// };
+
+// const inputStyle = {
+//   padding: '10px',
+//   marginBottom: '10px',
+//   width: '300px',
+//   fontSize: '16px',
+// };
+
+// const buttonStyle = {
+//   padding: '10px',
+//   backgroundColor: '#007bff',
+//   color: '#fff',
+//   border: 'none',
+//   cursor: 'pointer',
+//   fontSize: '16px',
+// };
+
+// const disabledButtonStyle = {
+//   backgroundColor: '#ccc',
+//   cursor: 'not-allowed',
+// };
+
+// class CountryForm extends Component<any, any> {
+//   constructor(props: any) {
+//     super(props);
+//     this.state = {
+//       country_input: '',
+//     };
+//   }
+
+//   handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+//     const value = e.target.value;
+//     this.setState({
+//       country_input: value.startsWith(' ') ? value.trimStart() : value,
+//     });
+//   };
+
+  // fetchData = async () => {
+  //   const { country_input } = this.state;
+  //   const { navigate } = this.props;
+  //   const res = await fetch(`https://restcountries.com/v3.1/name/${country_input}?fullText=true`);
+  //   const data = await res.json();
+  //   if (data.status !== 404) {
+  //     navigate(`/${country_input}`, { state: { apiData: data[0] } });
+  //   } else {
+  //     toast.error('Country not found ');
+  //   }
+  // };
+
+//   handleSearch = () => {
+//     this.fetchData();
+//   };
+
+//   handleSubmit = (event: React.FormEvent) => {
+//     event.preventDefault();
+//     this.fetchData();
+//   };
+
+//   render() {
+//     const { country_input } = this.state;
+//     const isSearchDisabled = country_input.length === 0;
+
+//     return (
+//       <>
+//         <Toaster position="top-center" reverseOrder={false} />
+//         <form onSubmit={this.handleSubmit} style={formStyle}>
+//           <input
+//             type="text"
+//             placeholder="Enter Country Name"
+//             value={country_input}
+//             onChange={this.handleChange}
+//             style={inputStyle}
+//           />
+//           <button
+//             type="button"
+//             disabled={isSearchDisabled}
+//             onClick={this.handleSearch}
+//             style={isSearchDisabled ? { ...buttonStyle, ...disabledButtonStyle } : buttonStyle}
+//           >
+//             Search
+//           </button>
+//         </form>
+//       </>
+//     );
+//   }
+// }
+
+// export default withRouter(CountryForm);
+
+
+
+
+
+import React, { Component, ChangeEvent, CSSProperties } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import withRouter from '../withRouter';
+
+const formStyle: CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+//  sizeAdjust: 'auto',
+  marginTop: '20px',
+};
+
+const inputStyle: CSSProperties = {
+  padding: '10px',
+  marginBottom: '10px',
+  width: '300px',
+  fontSize: '16px',
+};
+
+const buttonStyle: CSSProperties = {
+  padding: '10px',
+  backgroundColor: '#007bff',
+  color: '#fff',
+  border: 'none',
+  cursor: 'pointer',
+  fontSize: '16px',
+};
+
+const disabledButtonStyle: CSSProperties = {
+  backgroundColor: '#ccc',
+  cursor: 'not-allowed',
+};
 
 class CountryForm extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      country_input: "",
+      country_input: '',
     };
   }
-
-  backgroundImg =
-    "https://images.unsplash.com/photo-1610892415063-d89a504ce049";
-  useStyles = makeStyles(() => ({
-    form: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      marginTop: "5%",
-      marginLeft: "40%",
-      backgroundImage: `url(${this.backgroundImg})`,
-      backgroundSize: "cover", // Adjust as needed
-      minHeight: "80vh",
-      width: "500px",
-      justifyContent: "center",
-      padding: 4,
-    },
-    input: {
-      marginBottom: 2,
-      marginBlockStart: 20,
-      width: "300px",
-    },
-    button: {
-      borderRadius: "20px",
-      marginTop: "20px",
-      paddingTop: "10px",
-    },
-  }));
 
   handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     this.setState({
-      country_input: value.startsWith(" ") ? value.trimStart() : value,
+      country_input: value.startsWith(' ') ? value.trimStart() : value,
     });
+  };
+
+  fetchData = async () => {
+    const { country_input } = this.state;
+    const { navigate } = this.props;
+    const res = await fetch(`https://restcountries.com/v3.1/name/${country_input}?fullText=true`);
+    const data = await res.json();
+    if (data.status !== 404) {
+      navigate(`/${country_input}`, { state: { apiData: data[0] } });
+    } else {
+      toast.error('Country not found ');
+    }
+  };
+
+  handleSearch = () => {
+    this.fetchData();
   };
 
   handleSubmit = (event: React.FormEvent) => {
@@ -55,86 +171,32 @@ class CountryForm extends Component<any, any> {
     this.fetchData();
   };
 
-  fetchData = async () => {
-    const { country_input } = this.state;
-    const { navigate } = this.props;
-    const res = await fetch(
-      `https://restcountries.com/v3.1/name/${country_input}?fullText=true`
-    );
-    const data = await res.json();
-    //If we take data by fetch we have  to send data[0] but by axios  we can send data  by data
-    if (data.status !== 404) {
-      navigate(`/${country_input}`, { state: { data: data[0] } });
-    } else {
-      toast.error("Country not found");
-    }
-  };
-
   render() {
     const { country_input } = this.state;
     const isSearchDisabled = country_input.length === 0;
-    const classes = this.useStyles();
 
     return (
-      <form className={classes.form} onSubmit={this.handleSubmit}>
+      <>
         <Toaster position="top-center" reverseOrder={false} />
-        <Box
-          sx={{
-            display: "flex",
-            marginBottom: "460px",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Box sx={{ marginBottom: "50px", fontSize: "3em" }}>
-            Geo Discovery🌍
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: "16px",
-              marginBottom: "16px",
-            }}
+        <form onSubmit={this.handleSubmit} style={formStyle}>
+          <input
+            type="text"
+            placeholder="Enter Country Name"
+            aria-label='Enter Country Name'
+            value={country_input}
+            onChange={this.handleChange}
+            style={inputStyle}
+          />
+          <button
+            type="button"
+            disabled={isSearchDisabled}
+            onClick={this.handleSearch}
+            style={isSearchDisabled ? { ...buttonStyle, ...disabledButtonStyle } : buttonStyle}
           >
-            <TextField
-              label="Enter Country Name"
-              variant="outlined"
-              value={country_input}
-              onChange={this.handleChange}
-              inputProps={{
-                style: { color: "aliceblue" },
-              }}
-              InputLabelProps={{
-                style: { color: "aliceblue" },
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "aliceblue",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "aliceblue",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "aliceblue",
-                  },
-                },
-              }}
-            />
-
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              disabled={isSearchDisabled}
-            >
-              Submit
-            </Button>
-          </Box>
-        </Box>
-      </form>
+            Search
+          </button>
+        </form>
+      </>
     );
   }
 }

@@ -1,12 +1,7 @@
-import '@testing-library/jest-dom';
-import fetchMock from 'jest-fetch-mock';
-import '@testing-library/jest-dom';
+// src/setupTests.ts
+// import '@testing-library/jest-dom';
+import 'babel-jest'
+import { TextEncoder } from 'util';
+global.TextEncoder = TextEncoder;
+// global.TextDecoder = TextDecode
 
-fetchMock.enableMocks();
-global.matchMedia = global.matchMedia || function () {
-    return {
-      matches: false,
-      addListener: jest.fn(),
-      removeListener: jest.fn(),
-    };
-  };
